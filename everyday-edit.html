@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Everyday Edit — Azéle</title>
+<meta name="description" content="Lightweight, minimal, tarnish-resistant stacking rings and bracelets designed for daily wear — curated into the Boss Girl, Girl Brunch and Coffee Run stacks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-hero">
+  <img src="images/texture-coffee-hands.jpg" alt="" style="object-position: center 30%;">
+  <div class="scrim"></div>
+  <div class="page-hero-content">
+    <span class="eyebrow">Trendy &middot; Light &middot; Timeless</span>
+    <h1>The Everyday Edit</h1>
+    <div class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Everyday Edit</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Everyday Jewellery</span>
+      <h2>Made for you, every day</h2>
+      <p>Lightweight and minimal, our Everyday Edit rings and bracelets are tarnish resistant and water resistant — styled here into three of our favourite ways to stack them. Message us on WhatsApp to build your own stack.</p>
+    </div>
+
+    <div class="feature-strip" style="margin-bottom:90px;">
+      <div class="feature-item">
+        <div class="icon">&#127811;</div>
+        <h4>Lightweight</h4>
+      </div>
+      <div class="feature-item">
+        <div class="icon">&#10022;</div>
+        <h4>Trendy</h4>
+      </div>
+      <div class="feature-item">
+        <div class="icon">&#128340;</div>
+        <h4>Timeless</h4>
+      </div>
+      <div class="feature-item">
+        <div class="icon">&#10084;</div>
+        <h4>Made For You</h4>
+      </div>
+    </div>
+
+    <div id="stacks-container"></div>
+  </div>
+</section>
+
+<section class="bg-soft">
+  <div class="wrap">
+    <div class="cta-banner" style="padding:70px 40px;">
+      <img src="images/texture-jewelry-plate.jpg" alt="">
+      <div class="scrim"></div>
+      <div class="cta-banner-content">
+        <span class="eyebrow" style="color:var(--gold-light)">Build Your Own Stack</span>
+        <h2>Tell us your style, we'll do the rest</h2>
+        <p>Send us a photo of your hand or wrist and we'll help you put together a stack that feels like you.</p>
+        <a href="#" id="stack-cta" class="btn btn-gold" target="_blank" rel="noopener">Message Us On WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="js/products.js"></script>
+<script src="js/site.js"></script>
+<script>
+  renderHeader("everyday");
+  renderFooter();
+
+  document.getElementById("stacks-container").innerHTML = STACKS.map((s, i) => `
+    <div class="stack-block ${i % 2 === 1 ? 'reverse' : ''}" id="${s.slug}">
+      <div class="stack-img"><img src="${s.image}" alt="${s.name}"></div>
+      <div>
+        <span class="eyebrow">The Everyday Edit</span>
+        <h2 style="margin-top:10px;">${s.name}</h2>
+        <p class="stack-tagline">${s.tagline}</p>
+        <p style="color:var(--ink-soft); font-size:15.5px;">${s.description}</p>
+        <div class="stack-features">
+          ${s.features.map(f => `<span>${f}</span>`).join("")}
+        </div>
+        <a href="${whatsappLink('Hi Azéle! I would love to know more about the ' + s.name + '.')}" target="_blank" rel="noopener" class="btn btn-whatsapp">Enquire About This Stack</a>
+      </div>
+    </div>
+  `).join("");
+
+  document.getElementById("stack-cta").href = whatsappLink("Hi Azéle! I'd love help building my own everyday stack.");
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — Azéle</title>
+<meta name="description" content="Get in touch with Azéle over WhatsApp, Instagram or email for custom orders, pricing and styling advice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-hero" style="min-height:36vh;">
+  <img src="images/texture-jewelry-plate.jpg" alt="">
+  <div class="scrim"></div>
+  <div class="page-hero-content">
+    <span class="eyebrow">Get In Touch</span>
+    <h1>We'd love to hear from you</h1>
+    <div class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Contact</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <span class="eyebrow">Contact Details</span>
+        <h2 style="margin-top:14px;">Reach us directly</h2>
+        <p style="color:var(--ink-soft); margin-top:14px; font-size:15px;">For pricing, customisation, or wedding bulk orders, WhatsApp is the fastest way to reach us — we reply personally, every time.</p>
+
+        <div style="margin-top:34px;">
+          <div class="contact-info-item">
+            <div class="icon">&#128241;</div>
+            <div>
+              <h4>WhatsApp</h4>
+              <a href="" id="wa-link-1" target="_blank" rel="noopener">8081482055</a><br>
+              <a href="" id="wa-link-2" target="_blank" rel="noopener">9598545591</a>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="icon">&#128247;</div>
+            <div>
+              <h4>Instagram</h4>
+              <a href="https://instagram.com/azele.lifestyle" target="_blank" rel="noopener">@azele.lifestyle</a>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="icon">&#9993;</div>
+            <div>
+              <h4>Email</h4>
+              <a href="mailto:azele.care@gmail.com">azele.care@gmail.com</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider left"><span class="sparkle">&#10022;</span></div>
+        <p class="serif-italic">Timeless pieces. Made for every moment.</p>
+      </div>
+
+      <div>
+        <span class="eyebrow">Send An Enquiry</span>
+        <h2 style="margin-top:14px;">Tell us what you're looking for</h2>
+        <form id="contact-form" style="margin-top:30px;">
+          <div class="form-field">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" required placeholder="e.g. Priya Sharma">
+          </div>
+          <div class="form-field">
+            <label for="interest">I'm Interested In</label>
+            <select id="interest">
+              <option value="Kundan Jewellery">Kundan Jewellery</option>
+              <option value="Everyday Edit">Everyday Edit</option>
+              <option value="A Custom Order">A Custom / Bulk Order</option>
+              <option value="Something Else">Something Else</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell us a little about what you're looking for..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-whatsapp btn-block">Send Via WhatsApp</button>
+        </form>
+        <p style="font-size:12.5px; color:var(--ink-soft); margin-top:14px;">This opens WhatsApp with your message pre-filled — nothing is sent until you hit send there.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="js/products.js"></script>
+<script src="js/site.js"></script>
+<script>
+  renderHeader("contact");
+  renderFooter();
+
+  document.getElementById("wa-link-1").href = whatsappLink("Hi Azéle! I have a question about your jewellery.");
+  document.getElementById("wa-link-2").href = `https://wa.me/919598545591?text=${encodeURIComponent("Hi Azéle! I have a question about your jewellery.")}`;
+
+  document.getElementById("contact-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const interest = document.getElementById("interest").value;
+    const message = document.getElementById("message").value.trim();
+    const text = `Hi Azéle! My name is ${name}.\nI'm interested in: ${interest}\n\n${message}`;
+    window.open(whatsappLink(text), "_blank", "noopener");
+  });
+</script>
+</body>
+</html>

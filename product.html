@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Azéle</title>
+<meta name="description" content="Handmade Kundan jewellery by Azéle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<section style="padding: 34px 0 0;">
+  <div class="wrap">
+    <div class="breadcrumb" style="color:var(--ink-soft);" id="breadcrumb"></div>
+  </div>
+</section>
+
+<section style="padding-top: 26px;">
+  <div class="wrap">
+    <div class="product-detail" id="product-detail"></div>
+  </div>
+</section>
+
+<section class="bg-soft" id="related-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">You May Also Like</span>
+      <h2>More from this edit</h2>
+    </div>
+    <div class="product-grid" id="related-grid"></div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="js/products.js"></script>
+<script src="js/site.js"></script>
+<script>
+  renderHeader("shop");
+  renderFooter();
+
+  const params = new URLSearchParams(location.search);
+  const slug = params.get("slug");
+  const product = getProductBySlug(slug);
+  const container = document.getElementById("product-detail");
+  const related = document.getElementById("related-grid");
+  const breadcrumb = document.getElementById("breadcrumb");
+
+  if (!product) {
+    container.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1;">
+        <h3>We couldn't find that piece.</h3>
+        <p>It may have been renamed or retired. Browse the full collection instead.</p>
+        <a href="shop.html" class="btn btn-gold" style="margin-top:20px;">Back To Shop</a>
+      </div>
+    `;
+    document.getElementById("related-section").style.display = "none";
+  } else {
+    document.title = `${product.name} — Azéle`;
+    breadcrumb.innerHTML = `<a href="index.html">Home</a> / <a href="shop.html">Shop</a> / ${product.name}`;
+
+    const metaRows = Object.entries(product.meta).map(([k, v]) => {
+      const label = k.charAt(0).toUpperCase() + k.slice(1);
+      return `<li><b>${label}</b><span>${v}</span></li>`;
+    }).join("");
+
+    container.innerHTML = `
+      <div class="product-detail-media">
+        ${product.tag ? `<span class="product-tag">${product.tag}</span>` : ""}
+        <img src="${product.image}" alt="${product.name}">
+      </div>
+      <div>
+        <span class="eyebrow">${product.categoryLabel}</span>
+        <h1 style="margin-top:12px;">${product.name}</h1>
+        <div class="pd-price">${formatPrice(product.price)}</div>
+        <p class="pd-desc">${product.description}</p>
+        <ul class="pd-meta">${metaRows}</ul>
+        <div class="pd-actions">
+          <a href="${productWhatsappLink(product)}" target="_blank" rel="noopener" class="btn btn-whatsapp">Enquire On WhatsApp</a>
+          <a href="https://instagram.com/azele.lifestyle" target="_blank" rel="noopener" class="btn">See More On Instagram</a>
+        </div>
+        <p class="pd-note">Every piece is handcrafted to order and can be customised in size, chain length or stone colour — just ask us on WhatsApp.</p>
+      </div>
+    `;
+
+    const relatedProducts = PRODUCTS.filter(p => p.category === product.category && p.slug !== product.slug).slice(0, 4);
+    const fallback = relatedProducts.length < 4
+      ? PRODUCTS.filter(p => p.slug !== product.slug && !relatedProducts.includes(p)).slice(0, 4 - relatedProducts.length)
+      : [];
+    const finalRelated = [...relatedProducts, ...fallback];
+
+    related.innerHTML = finalRelated.map(p => `
+      <div class="product-card">
+        <a href="product.html?slug=${p.slug}">
+          <div class="product-media">
+            ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ""}
+            <img src="${p.image}" alt="${p.name}" loading="lazy">
+          </div>
+        </a>
+        <div class="product-info">
+          <span class="product-cat">${p.categoryLabel}</span>
+          <h3 class="product-name"><a href="product.html?slug=${p.slug}">${p.name}</a></h3>
+          <span class="product-price">${formatPrice(p.price)}</span>
+          <div class="product-actions">
+            <a href="product.html?slug=${p.slug}" class="btn btn-sm">View</a>
+            <a href="${productWhatsappLink(p)}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm">Enquire</a>
+          </div>
+        </div>
+      </div>
+    `).join("");
+  }
+</script>
+</body>
+</html>

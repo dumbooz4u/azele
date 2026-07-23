@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop The Kundan Edit — Azéle</title>
+<meta name="description" content="Browse Azéle's full handmade Kundan jewellery collection — necklaces, chokers, earrings, bracelets, rings and haathphools.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-hero">
+  <img src="images/texture-jewelry-plate.jpg" alt="">
+  <div class="scrim"></div>
+  <div class="page-hero-content">
+    <span class="eyebrow">Timeless &middot; Rooted in Tradition</span>
+    <h1>The Kundan Edit</h1>
+    <div class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Shop</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="filter-tabs" id="filter-tabs">
+      <button data-cat="all" class="active">All</button>
+      <button data-cat="necklaces">Necklaces</button>
+      <button data-cat="chokers">Choker Sets</button>
+      <button data-cat="earrings">Earrings</button>
+      <button data-cat="bracelets">Bracelets</button>
+      <button data-cat="rings">Rings</button>
+      <button data-cat="haathphool">Haathphool</button>
+    </div>
+    <div class="product-grid" id="product-grid"></div>
+  </div>
+</section>
+
+<section class="bg-soft">
+  <div class="wrap">
+    <div class="cta-banner" style="padding:70px 40px;">
+      <img src="images/texture-flowers.jpg" alt="" style="object-position: left;">
+      <div class="scrim"></div>
+      <div class="cta-banner-content">
+        <span class="eyebrow" style="color:var(--gold-light)">Looking For Something Lighter?</span>
+        <h2>Try The Everyday Edit</h2>
+        <p>Minimal, stackable rings and bracelets built for daily wear.</p>
+        <a href="everyday-edit.html" class="btn btn-gold">Explore Everyday Edit</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="js/products.js"></script>
+<script src="js/site.js"></script>
+<script>
+  renderHeader("shop");
+  renderFooter();
+
+  function cardHTML(p) {
+    return `
+      <div class="product-card" data-cat="${p.category}">
+        <a href="product.html?slug=${p.slug}">
+          <div class="product-media">
+            ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ""}
+            <img src="${p.image}" alt="${p.name}" loading="lazy">
+          </div>
+        </a>
+        <div class="product-info">
+          <span class="product-cat">${p.categoryLabel}</span>
+          <h3 class="product-name"><a href="product.html?slug=${p.slug}">${p.name}</a></h3>
+          <span class="product-price">${formatPrice(p.price)}</span>
+          <div class="product-actions">
+            <a href="product.html?slug=${p.slug}" class="btn btn-sm">View</a>
+            <a href="${productWhatsappLink(p)}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm">Enquire</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  const grid = document.getElementById("product-grid");
+  grid.innerHTML = PRODUCTS.map(cardHTML).join("");
+
+  const tabs = document.querySelectorAll("#filter-tabs button");
+  function applyFilter(cat) {
+    tabs.forEach(t => t.classList.toggle("active", t.dataset.cat === cat));
+    document.querySelectorAll("#product-grid .product-card").forEach(card => {
+      card.style.display = (cat === "all" || card.dataset.cat === cat) ? "" : "none";
+    });
+  }
+  tabs.forEach(t => t.addEventListener("click", () => {
+    applyFilter(t.dataset.cat);
+    history.replaceState(null, "", t.dataset.cat === "all" ? "shop.html" : `shop.html?cat=${t.dataset.cat}`);
+  }));
+
+  const params = new URLSearchParams(location.search);
+  const initialCat = params.get("cat") || "all";
+  applyFilter(initialCat);
+</script>
+</body>
+</html>
